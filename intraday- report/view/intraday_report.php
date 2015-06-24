@@ -1,36 +1,60 @@
 <?php include_once("header.php"); ?>
 <?php include_once("sidebar.php"); ?>
+<style type="text/css">
+  #intraday table{
+    border-style: solid; border-width: 1px; border-color: #CCCCCC;
+  }
+  #intraday td{
+    border-right-style:solid; border-width: 1px; border-color: #CCCCCC;
+  }
+  #intraday td{
+    border-bottom-style:solid; border-width: 1px; border-color: #CCCCCC;
+  }
+ #intraday tr td:last-child {
+    border-right-style: none;
+
+}
+#intraday tr:last-child td {
+    border-bottom-style: none;
+    
+}
+#FDtime {
+  border-right-style:solid; border-width: 1px; border-color: #CCCCCC;
+}
+</style>
   <div id="contents-wrapper">
     <h2>Intraday Report <!-- <a href="<?php echo $this->config->base_url()."siteadmin/customers";?>/create" class="button"><img src="/images/new.png" width="24" height="24" border="0" align="top" />Create</a> -->    </h2>
         <div id="shadow">
 	<?php if(count($array_reports_full)): ?>
     <div id="intraday_search">
       <?php echo form_open('/siteadmin/intraday_report/search');?>
-        Change start date: <input type="text"  name="search" id="search" />
+        Change start date: <input type="text" placeholder='yyyy-mm-dd' name="search" id="search" /> (e.g. YYYY-MM-DD)
         <input type="submit"  id="report" name="submit" value="View from Date" />
         
       </form>      
     </div>
-    <table width="1000" height="500" border="1" align="center" cellpadding="0" style="font-size:12px;  color: #000 !important;" cellspacing="0" id="result">
-    <thead>
-      <tr><th bgcolor="#009900" style="font-size:12px;  color: #000 !important;" colspan="9"><center><h1><?php echo $show_date; ?></h1></center></th></tr>
+    <div >
+    <table id="intraday" align="center" cellpadding="5" cellspacing="1" style="border-style: solid; border-width: 1px; border-color: #CCCCCC; margin-top:10px;" >
       <tr>
-      <th colspan="2" bgcolor="#009900">&nbsp;</th>
-      <th colspan="3" style="font-size:20px; background-color:#00CC33 !important; border-bottom:none !important; color: #000 !important;"><center>Conversion Monitor</center></th>
-      <td colspan="2" bgcolor="#CCCCCC"> FD1 TY Data</td>
-      <td colspan="2" bgcolor="#CCCCCC">FD1 LY Data</td>
+      <td bgcolor="#65b960" style="font-size:18px; color: #000 !important; text-shadow:none!important;" colspan="9"><center><?php echo $show_date; ?></center></td>
       </tr>
       <tr>
-      <td colspan="2"bgcolor="#CCCCCC">Time</td>
-      <td bgcolor="#CCCCCC">FD1 TY Conversion TY</td>
-      <td bgcolor="#CCCCCC">FD1 LY Conversion TY</td>
-      <td bgcolor="#CCCCCC">FD1 TY v. FD1 LY Differential</td>
-      <td bgcolor="#CCCCCC">Sessions</td>
-      <td bgcolor="#CCCCCC">Orders</td>
-      <td bgcolor="#CCCCCC">Sessions</td>
-      <td bgcolor="#CCCCCC">Orders</td>
+      <td colspan="3" bgcolor="#65b960">&nbsp;</td>
+      <td colspan="2" style="font-size:14px; background-color:#00CC33 !important; border-bottom:none !important; color: #000 !important; text-shadow:none!important;"><center>Conversion Monitor</center></td>
+      <td style="text-shadow:none!important;" colspan="2" bgcolor="#CCCCCC"> TY Data</td>
+      <td style="text-shadow:none!important;"  colspan="2" bgcolor="#CCCCCC"> LY Data</td>
       </tr>
-      </thead>
+      <tr>
+      <td style="text-shadow:none!important;" width="110" scope="col" colspan="2" bgcolor="#CCCCCC">Time</td>
+      <td style="text-shadow:none!important;" width="120" bgcolor="#CCCCCC"> TY Conversion TY</td>
+      <td style="text-shadow:none!important;" width="120" bgcolor="#CCCCCC"> LY Conversion TY</td>
+      <td style="text-shadow:none!important;" width="130" bgcolor="#CCCCCC"> TY v. LY Differential</td>
+      <td style="text-shadow:none!important;" width="60" bgcolor="#CCCCCC">Sessions</td>
+      <td style="text-shadow:none!important;" width="60" bgcolor="#CCCCCC">Orders</td>
+      <td style="text-shadow:none!important;" width="60" bgcolor="#CCCCCC">Sessions</td>
+      <td style="text-shadow:none!important;" width="60" bgcolor="#CCCCCC">Orders</td>
+      </tr>
+      
       <?php
      //echo '<pre>';
     // print_r($array_reports_full);
@@ -62,7 +86,7 @@
                   }
                   if($value['start_time']==11)
                   {
-                    $start_time=$value['start_time']."AM";
+                    $start_time=$value['start_time']." AM";
                     $end_time="12 PM";
                   }
 
@@ -75,12 +99,12 @@
                   $end_time=($value['end_time']-12)." PM";
                   if($value['start_time']==12)
                     {
-                      $start_time=$value['start_time']."PM";
+                      $start_time=$value['start_time']." PM";
                       $end_time="1 PM";
                     }
                   if($value['end_time']==0)
                     {
-                      $start_time=($value['start_time']-12)."PM";
+                      $start_time=($value['start_time']-12)." PM";
                       $end_time="12 AM";
                     }
                 }
@@ -115,7 +139,8 @@
                }
               ?>
       <tr>
-      <td colspan="2" ><table style="widtd:auto;" border="1" cellspacing="" cellpadding="0"><tr><td style="font-size:12px;" > <?php echo $start_time;?> </td><td> <?php echo $end_time;?> </td></tr></table></td>
+      <td id="FDtime1" ><?php echo $start_time;?> </td>
+      <td id="FDtime2" > <?php echo $end_time;?></td>
       <td id="FD1TY_conversion_<?php echo $value['start_time']."-".$value['end_time'];?>"><?php echo $FD1TY_conversion; ?>%</td>
       <td id="FD1LY_conversion_<?php echo $value['start_time']."-".$value['end_time'];?>"><?php echo $FD1LY_conversion; ?>%</td>
       <td id="FD1TY_FD1LY_diff_<?php echo $value['start_time']."-".$value['end_time'];?>" <?php if ($dec==1) {?>style="color:#FF0000;"<?php } else{?>style="color:#00FF00;"<?php }?>><?php echo $sign.$FD1TY_FD1LY_diff; ?></td>
@@ -124,10 +149,11 @@
       <td id="cartLY_<?php echo $value['start_time']."-".$value['end_time'];?>"><?php echo $cartLY; ?></td>
       <td id="ordersLY_<?php echo $value['start_time']."-".$value['end_time'];?>"><?php echo $ordersLY; ?></td>
       </tr>
-      <tr>
+      
        <?php endforeach;  ?>
       
     </table>
+
     <?php else: ?>
     <p class="notfound">Sorry No <?php echo $this_class; ?> Found.</p>
     <?php endif; ?>
@@ -156,7 +182,7 @@
          }
          else
          {
-         alert("Date Invalid");
+         alert("Invalid Date, Please use YYYY-MM-DD fomat!");
          }
        
       });
@@ -164,10 +190,14 @@
     var CheckNewOrders = function () {
 
       var d = new Date();
-      var start_time = d.getHours() ;
+      //var ndt=<?php echo date('H'); ?>;
+      //console.log("ndt"+ndt);
+      //var start_time = d.getHours() ;
+      var start_time=<?php echo date('H'); ?>
       // var current_hour=new Date().getTime();
       //var start_time=current_hour+':00:00';
       //var end_time=current_hour +':59:59';
+      console.log(d);
       var end_time=start_time + 1;
       if(end_time==24)
       {
