@@ -1,0 +1,180 @@
+jQuery(function(){
+  var x = window.location.pathname;
+  if( x.indexOf('wholesale-form-new') > 0 ) {
+    console.log('this is page whole sale');
+    $('#saveForm').click(function(){
+    console.log('clicked');
+      if($('#Field1').val()=='')
+      {
+        alert('Legal Business Name required');
+        $('#Field1').focus();
+        return false;
+      }
+      
+       if($('#Field12').val()=='')
+      {
+        alert('Web Site or Facebook Address required');
+        $('#Field12').focus();
+        return false;
+      }
+       if($('#Field10').val()=='')
+      {
+        alert('Contact First Name required');
+        $('#Field10').focus();
+        return false;
+      }
+       if($('#Field11').val()=='')
+      {
+        alert('Contact Last Name required');
+        $('#Field11').focus();
+        return false;
+      }
+       if($('#Field2').val()=='')
+      {
+        alert('Store Phone Number required');
+        $('#Field2').focus();
+        return false;
+      }
+    /*  $("#Field2").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        alert('Number only');
+               return false;
+    }
+   });*/
+       
+       if($('#Field2-1').val()=='')
+      {
+        alert('Store Phone Number required');
+        $('#Field2-1').focus();
+        return false;
+      }
+        $("#Field2-1").keypress(function (e) {
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          alert('Number only');
+                 return false;
+      }
+     });
+        if($('#Field2-2').val()=='')
+      {
+        alert('Store Phone Number required');
+        $('#Field2-2').focus();
+        return false;
+      }
+      $("#Field2-2").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        alert('Number only');
+               return false;
+    }
+   	});
+      
+        if($('#Field3').val()=='')
+      {
+        alert('Email required');
+        $('#Field3').focus();
+        return false;
+      }
+      
+        if($('#Field4').val()=='')
+      {
+        alert('Store address required');
+        $('#Field4').focus();
+        return false;
+      }
+      
+        if($('#Field6').val()=='')
+      {
+        alert('Store city required');
+        $('#Field6').focus();
+        return false;
+      }
+      
+         if($('#Field7').val()=='')
+      {
+        alert('Store State / Province / Region required');
+        $('#Field7').focus();
+        return false;
+      }
+      
+        if($('#Field8').val()=='')
+      {
+        alert('Store Postal / Zip Code required');
+        $('#Field8').focus();
+        return false;
+      }
+      
+         if($('#Field9').val()=='' || $('#Field9').val()=='----')
+      {
+        alert('Store country required');
+        $('#Field9').focus();
+        return false;
+      }
+      var Legal_Business_Name=$('#Field1').val();
+      var Store_Phone_Number=$('#Field2').val()+ $('#Field2-1').val()+$('#Field2-2').val();
+      var Email=$('#Field3').val();
+     var Store_Address=$('#Field4').val()+$('#Field5').val()+$('#Field6').val()+$('#Field7').val()+$('#Field8').val()+$('#Field9').val();
+     var contact_name=$('#Field10').val() +' '+$('#Field11').val();
+      var Web_Site_or_Facebook_Address=$('#Field12').val();
+     var Comments= $('#Field13').val();
+      var FEIN=$('#Field15').val();
+      var State_of_Incorporation_or_Formation=$('#Field16').val();
+      var multiple_locations=$('input[type=radio]:checked').val();
+      console.log(multiple_locations);
+  
+            var request = $.ajax({
+            url: "http://clientenquiryform.mobikasa.com/send_mail.php",
+            crossDomain: true,
+            method: "POST",
+            data: {
+                Legal_Business_Name: Legal_Business_Name,
+                Store_Phone_Number: Store_Phone_Number,
+                Email:Email,
+                Store_Address:Store_Address,
+                contact_name:contact_name,
+                Web_Site_or_Facebook_Address:Web_Site_or_Facebook_Address,
+                Comments:Comments,
+                FEIN:FEIN,
+                State_of_Incorporation_or_Formation:State_of_Incorporation_or_Formation,
+                multiple_locations:multiple_locations
+            },
+            dataType: "json"
+             });
+
+            request.done(function( msg ) {
+            alert("Response from server: " + msg);
+           // window.location.href=window.location.href;
+              window.location.reload();
+              //location.reload();
+             $('#Field1').val('');
+             $('#Field2').val();
+             $('#Field2-1').val('');
+             $('#Field2-2').val('');
+             $('#Field3').val('');
+             $('#Field4').val('');
+             $('#Field5').val('');
+             $('#Field6').val('');
+             $('#Field7').val('');
+             $('#Field8').val('');
+             $('#Field9').val('');
+             $('#Field10').val('');
+             $('#Field11').val('');
+             $('#Field12').val('');
+             $('#Field13').val('');
+             $('#Field15').val('');
+             $('#Field16').val('');
+      
+          });
+
+          request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+            return false;
+          });
+            
+   // return false;
+    }); 
+   
+  } else {
+  	console.log('this is not page whole sale');
+  };
+  
+});
